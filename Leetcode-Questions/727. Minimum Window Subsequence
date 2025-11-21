@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    string minWindow(string& s, string& t) {
+        int m = s.length();
+        int n = t.length();
+        if (n > m)
+            return "";
+            
+        int i, j, k;
+        i = j = k = 0;
+        int minLen = 1e4;
+        int stIdx = -1;
+        while (j < m && k < n) {
+            if (s[j] == t[k])
+                k++;
+            if (k == n) {
+                i = j;
+                k--;
+                
+                while (i >= 0 && k >= 0) {
+                    if (s[i] == t[k])
+                        k--;
+                    i--;
+                }
+                
+                i++;
+                if (minLen > (j - i + 1)) {
+                    minLen = j - i + 1;
+                    stIdx = i;
+                }
+                k = 0;
+                j = i + 1;
+            }
+            j++;
+        }
+        return (stIdx == -1) ? "" : s.substr(stIdx, minLen);
+    }
+};
