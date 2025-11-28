@@ -76,3 +76,44 @@ public:
         return head;
     }
 };
+
+
+// APPROACH 3
+// TC = O(N LOG(K))
+// SC = O(K)
+class Compare{
+public:
+    bool operator()(ListNode *l1, ListNode *l2) {
+        return l1->val > l2->val;
+    }
+ };
+ 
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty())
+            return nullptr;
+
+        priority_queue<ListNode*, vector<ListNode*>, Compare> pq;
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists[i] != nullptr)
+                pq.push(lists[i]);
+        }
+
+        ListNode *dummy = new ListNode(-1);
+        ListNode *temp = dummy;
+
+        while (!pq.empty()) {
+            ListNode *smallest = pq.top();
+            pq.pop();
+
+            temp->next = smallest;
+            temp = smallest;
+
+            if (smallest->next != nullptr)
+                pq.push(smallest->next);
+        }
+
+        return dummy->next;
+    }
+};
