@@ -38,3 +38,41 @@ public:
         return head;
     }
 };
+
+
+// APPROACH 2
+// TC = O(N * K * (K + 1) / 2)
+// SC = O(1)
+class Solution {
+    ListNode *mergeList(ListNode *l1, ListNode *l2) {
+        ListNode *dummy = new ListNode(-1);
+        ListNode *temp = dummy;
+        ListNode *t1 = l1, *t2 = l2;
+        while (t1 && t2) {
+            if (t1->val < t2->val) {
+                temp->next = t1;
+                temp = t1;
+                t1 = t1->next;
+            } else {
+                temp->next = t2;
+                temp = t2;
+                t2 = t2->next;   
+            }
+        }
+        if (t1)
+            temp->next = t1;
+        if (t2)
+            temp->next = t2;
+        return dummy->next;
+    }
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.size() == 0)
+            return nullptr;
+        ListNode *head = lists[0];
+        for (int i = 1; i < lists.size(); i++) {
+            head = mergeList(head, lists[i]);
+        }
+        return head;
+    }
+};
