@@ -1,6 +1,6 @@
 // Approach 1
-// TC = O(n)
-// SC = O(n)
+// TC = O(log(k))
+// SC = O(k)
 class KthLargest {
     priority_queue<int, vector<int>, greater<>> pq;
     int k;
