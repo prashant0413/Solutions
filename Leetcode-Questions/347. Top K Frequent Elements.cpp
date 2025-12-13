@@ -25,3 +25,37 @@ public:
         return ans;
     }
 };
+
+// Approach 2
+// TC = O(4n)
+// SC = O(n) + O(k)
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int, int> mpp;
+        for (int &num : nums) {
+            mpp[num]++;
+        }
+
+        vector<vector<int>> bucket(n + 1);
+        for (auto &i : mpp) {
+            int val = i.first;
+            int freq = i.second;
+            bucket[freq].push_back(val);
+        }
+
+        vector<int> ans;
+        for (int i = n; i >= 0; i--) {
+            if (bucket[i].empty())
+                continue;
+
+            while (!bucket[i].empty() && k > 0) {
+                ans.push_back(bucket[i].back());
+                bucket[i].pop_back();
+                k--;
+            }
+        }
+        return ans;
+    }
+};
