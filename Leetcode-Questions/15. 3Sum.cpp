@@ -1,3 +1,6 @@
+// Approach 1
+// TC = O(nlog(n)) + O(n * n)
+// Sc = O(n)
 class Solution
 {
 public:
