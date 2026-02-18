@@ -32,3 +32,34 @@ public:
         return true;
     }
 };
+
+// Approach 3
+// TC = O(k) where k is number of set bits
+// SC = O(1)
+class Solution {
+public:
+    bool hasAlternatingBits(int n) {
+        int counter = n & 1;
+        n >>= 1;
+        for (int i = 1; i < 32; i++) {
+            if (n == 0)
+                break;
+            if ((n & 1) == counter)
+                return false;
+            counter = 1 - counter;
+            n >>= 1;
+        }
+        return true;
+    }
+};
+
+// Apporach 4
+// TC = O(1)
+// SC = O(1)
+class Solution {
+public:
+    bool hasAlternatingBits(int n) {
+        unsigned int result = n ^ (n >> 1);
+        return (result & (result + 1)) == 0;
+    }
+};
