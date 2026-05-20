@@ -23,7 +23,7 @@ public:
 
 // Approach 2
 // TC = O(N)
-// Sc = O(1)
+// Sc = O(N)
 class Solution {
 public:
     vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
