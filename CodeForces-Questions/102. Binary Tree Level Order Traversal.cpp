@@ -39,3 +39,29 @@ public:
         return ans;
     }
 };
+
+// Approach 2
+// TC = O(N)
+// SC = O(N)
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if (root == nullptr) return ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int size = q.size();
+            vector<int> level;
+            for (int i = 0; i < size; i++) {
+                TreeNode* t = q.front();
+                q.pop();
+                if (t->left) q.push(t->left);
+                if (t->right) q.push(t->right);
+                level.push_back(t->val);
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
