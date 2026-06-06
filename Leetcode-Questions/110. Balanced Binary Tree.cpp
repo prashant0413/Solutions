@@ -22,3 +22,26 @@ public:
         return abs(l - r) < 2;
     }
 };
+
+// Approach 2
+// TC = O(N)
+// SC = O(N)
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr)
+            return 0;
+        int x = maxDepth(root->left);
+        if (x == -1) return -1;
+        int y = maxDepth(root->right);
+        if (y == -1) return -1;
+        if (abs(x - y) > 1) return -1;
+        return 1 + max(x, y);
+    }
+
+    bool isBalanced(TreeNode* root) {
+        if (root == nullptr)
+            true;
+        return maxDepth(root) != -1;
+    }
+};
