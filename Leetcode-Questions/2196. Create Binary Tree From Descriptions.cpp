@@ -43,7 +43,7 @@ public:
     }
 };
 
-// Approach 2
+// Approach 2 using MAP
 // TC = O(N)
 // SC = O(N)
 class Solution {
@@ -82,5 +82,47 @@ public:
             r = mpp[parent[r->val]];
         }
         return r;
+    }
+};
+
+// Approach 3 using SET
+// TC = O(N)
+// SC = O(N)
+class Solution {
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        unordered_map<int, TreeNode*> mpp;
+        unordered_set<int> st;
+        for (int i = 0; i < descriptions.size(); i++) {
+            int root = descriptions[i][0];
+            int child = descriptions[i][1];
+            int isLeft = descriptions[i][2];
+
+            TreeNode* rNode = nullptr;
+            if (mpp.count(root)) {
+                rNode = mpp[root];
+            } else {
+                rNode = new TreeNode(root);
+            }
+
+            TreeNode* cNode = nullptr;
+            if (mpp.count(child)) {
+                cNode = mpp[child];
+            } else {
+                cNode = new TreeNode(child);
+            }
+
+            if (isLeft) rNode->left = cNode;
+            else rNode->right = cNode;
+            mpp[child] = cNode;
+            mpp[root] = rNode;
+            st.insert(child);
+        }
+
+        for (int i = 0; i < descriptions.size(); i++) {
+            if (st.count(descriptions[i][0]) == 0)
+                return mpp[descriptions[i][0]];
+        }
+        return nullptr;
     }
 };
