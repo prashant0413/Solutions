@@ -1,4 +1,4 @@
-// Approach 1
+// Approach 1 using level order traversal
 // TC = O(N)
 // SC = O(N)
 class Solution {
