@@ -1,3 +1,6 @@
+// Approach 1
+// TC = O(N^2)
+// SC = O(1)
 class Solution {
 public:
     string mapWordWeights(vector<string>& words, vector<int>& weights) {
