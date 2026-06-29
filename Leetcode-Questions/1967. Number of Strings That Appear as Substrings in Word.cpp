@@ -1,5 +1,5 @@
 // Apporoach 1
-// TC = O(Nlog(N))
+// TC = O(N*M*K)
 // SC = O(1)
 class Solution {
 public:
