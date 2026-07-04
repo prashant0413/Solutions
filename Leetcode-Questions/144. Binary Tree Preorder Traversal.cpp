@@ -42,3 +42,35 @@ public:
         return ans;
     }
 };
+
+// Approach 3 (Morris Traversal)
+// TC = O(N)
+// SC = O(N)
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> preorder;
+        TreeNode* curr = root;
+        while (curr) {
+            if (!curr->left) {
+                preorder.push_back(curr->val);
+                curr = curr->right;
+            } else {
+                TreeNode* last = curr->left;
+                while (last->right && last->right != curr) {
+                    last = last->right;
+                }
+
+                if (last->right == nullptr) {
+                    last->right = curr;
+                    preorder.push_back(curr->val);
+                    curr = curr->left;
+                } else {
+                    last->right = nullptr;
+                    curr = curr->right;
+                }
+            }
+        }
+        return preorder;
+    }
+};
