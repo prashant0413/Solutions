@@ -71,3 +71,27 @@ public:
         }
     }
 };
+
+// Approach 4 using morris traversal
+// TC = O(N)
+// SC = O(1)
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if (root == nullptr) return;
+        TreeNode* curr = root;
+        while (curr) {
+            if (curr->left) {
+                TreeNode* l = curr->left;
+                while (l->right) {
+                    l = l->right;
+                }
+                l->right = curr->right;
+                curr->right = curr->left;
+                curr->left = nullptr;
+            } else {
+                curr = curr->right;
+            }
+        }
+    }
+};
