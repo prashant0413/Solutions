@@ -25,3 +25,27 @@ public:
         }
     }
 };
+
+// Approach 2
+// TC = O(N)
+// SC = O(N)
+class Solution {
+    TreeNode* prev;
+public:
+    void solve(TreeNode* root) {
+        if (root == nullptr)
+            return;
+
+        solve(root->right);
+        solve(root->left);
+
+        root->right = prev;
+        root->left = nullptr;
+        prev = root;
+    }
+
+    void flatten(TreeNode* root) {
+        prev = nullptr;
+        solve(root);
+    }
+};
