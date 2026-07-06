@@ -33,3 +33,25 @@ public:
         return mini;
     }
 };
+
+// Approach 2
+// TC = O(H)
+// SC = O(1)
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == nullptr) return nullptr;
+
+        TreeNode* curr = root;
+        while (curr) {
+            if (curr->val < p->val && curr->val < q->val) {
+                curr = curr->right;
+            } else if (curr->val > p->val && curr->val > q->val) {
+                curr = curr->left;
+            } else {
+                break;
+            }
+        }
+        return curr;
+    }
+};
