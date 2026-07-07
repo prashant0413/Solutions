@@ -33,3 +33,37 @@ class Solution {
         }
         return -1;
     }
+}
+
+// Approach 2
+// TC = O(N)
+// SC = O(1)
+class Solution {
+  public:
+    int inOrderSuccessor(Node *root, Node *k) {
+        int ans = -1;
+        Node* curr = root;
+        while (curr) {
+            if (curr->left == nullptr) {
+                if (curr->data > k->data && ans == -1)
+                    ans = curr->data;
+                curr = curr->right;
+            } else {
+                Node* prev = curr->left;
+                while (prev->right && prev->right != curr) {
+                    prev = prev->right;
+                }
+                if (prev->right == nullptr) {
+                    prev->right = curr;
+                    curr = curr->left;
+                } else {
+                    prev->right = nullptr;
+                    if (curr->data > k->data && ans == -1)
+                        ans = curr->data;
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};
