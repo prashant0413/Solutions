@@ -67,3 +67,23 @@ class Solution {
         return ans;
     }
 };
+
+// Approach 3
+// TC = O(H)
+// SC = O(1)
+class Solution {
+  public:
+    int inOrderSuccessor(Node *root, Node *k) {
+        Node* successor = NULL;
+        Node* curr = root;
+        while (curr) {
+            if (curr->data <= k->data) {
+                curr = curr->right;
+            } else {
+                successor = curr;
+                curr = curr->left;
+            }
+        }
+        return successor ? successor->data : -1;
+    }
+};
