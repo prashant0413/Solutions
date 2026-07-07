@@ -1,0 +1,35 @@
+// Approach 1
+// TC = O(N)
+// SC = O(N)
+class Solution {
+  public:
+    int inOrderSuccessor(Node *root, Node *k) {
+        vector<int> inorder;
+        Node* curr = root;
+        while (curr) {
+            if (curr->left == nullptr) {
+                inorder.push_back(curr->data);
+                curr = curr->right;
+            } else {
+                Node* prev = curr->left;
+                while (prev->right && prev->right != curr) {
+                    prev = prev->right;
+                }
+                if (prev->right == nullptr) {
+                    prev->right = curr;
+                    curr = curr->left;
+                } else {
+                    prev->right = nullptr;
+                    inorder.push_back(curr->data);
+                    curr = curr->right;
+                }
+            }
+        }
+        
+        for (int i = 0; i < inorder.size(); i++) {
+            if (inorder[i] == k->data) {
+                return i + 1 < inorder.size() ? inorder[i + 1] : -1;
+            }
+        }
+        return -1;
+    }
