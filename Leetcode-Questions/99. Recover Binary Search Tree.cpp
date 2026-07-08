@@ -66,3 +66,37 @@ public:
         updateTree(root, arr);
     }
 };
+
+// Approach 1
+// TC = O(N)
+// SC = O(1)
+class Solution {
+    TreeNode* first;
+    TreeNode* middle;
+    TreeNode* last;
+    TreeNode* prev;
+public:
+    void inorder(TreeNode* root) {
+        if (root == nullptr) return;
+        inorder(root->left);
+        if (prev != nullptr && prev->val > root->val) {
+            if (first == nullptr) {
+                first = prev;
+                middle = root;
+            } else {
+                last = root;
+            }
+        }
+        prev = root;
+        inorder(root->right);
+    }
+
+
+    void recoverTree(TreeNode* root) {
+        first = middle = last = nullptr;
+        prev = new TreeNode(INT_MIN);
+        inorder(root);
+        if (first && last) swap(first->val, last->val);
+        else if (first && middle) swap(first->val, middle->val);
+    }
+};
