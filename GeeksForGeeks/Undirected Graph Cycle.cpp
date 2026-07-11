@@ -1,4 +1,4 @@
-// Approach 1
+// Approach 1 using BFS
 // TC = O(V + 2E)
 // SC = O(V)
 class Solution {
@@ -37,6 +37,43 @@ class Solution {
         for (int i = 0; i < V; i++) {
             if (!vis[i]) {
                 if (detect(adjList, V, i, vis)) return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+// Approach 2 using DFS
+// TC = O(V + 2E)
+// SC = O(V)
+class Solution {
+  public:
+    bool detect(vector<int> adjList[], int v, int node, int parent, vector<bool> &vis) {
+        vis[node] = true;
+        for (int adjNode: adjList[node]) {
+            if (!vis[adjNode]) {
+                if (detect(adjList, v, adjNode, node, vis)) return true;
+            } else if (parent != adjNode) {
+                return true;
+            }
+        }
+        return false;
+    }
+  
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<int> adjList[V];
+        for (int i = 0; i < edges.size(); i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+        
+        vector<bool> vis(V, false);
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                if (detect(adjList, V, i, -1, vis)) return true;
             }
         }
         
