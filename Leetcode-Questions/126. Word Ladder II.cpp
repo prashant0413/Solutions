@@ -1,4 +1,4 @@
-// Approach 1 give TLE on leetcode
+// Approach 1 gives TLE on leetcode
 // TC and SC is depends on the test cases cannot be generalized
 class Solution {
 public:
@@ -54,5 +54,76 @@ public:
             }
         }
         return res;
+    }
+};
+
+// Approach 2 leetcode accepted
+// Not recommended for interview
+class Solution {
+    unordered_map<string, int> mpp;
+    vector<vector<string>> ans;
+    string b;
+
+    void dfs(string word, vector<string> &seq) {
+        if (word == b) {
+            reverse(begin(seq), end(seq));
+            ans.push_back(seq);
+            reverse(begin(seq), end(seq));
+            return;
+        }
+
+        int steps = mpp[word];
+        for (int i = 0; i < word.size(); i++) {
+            char org = word[i];
+            for (char c = 'a'; c <= 'z'; c++) {
+                word[i] = c;
+                if (mpp.count(word) && mpp[word] + 1 == steps) {
+                    seq.push_back(word);
+                    dfs(word, seq);
+                    seq.pop_back();
+                }
+            }
+            word[i] = org;
+        }
+    }
+
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        int n = wordList.size();
+        int k = beginWord.size();
+
+        unordered_set<string> st(begin(wordList), end(wordList));
+        st.erase(beginWord);
+        mpp[beginWord] = 1;
+        queue<string> q;
+        b = beginWord;
+        q.push(beginWord);
+        while (!q.empty()) {
+            string word = q.front();
+            int steps = mpp[word];
+            q.pop();
+
+            if (word == endWord) break;
+
+            for (int i = 0; i < k; i++) {
+                char org = word[i];
+                for (char c = 'a'; c <= 'z'; c++) {
+                    word[i] = c;
+                    if (st.count(word)) {
+                        mpp[word] = steps + 1;
+                        st.erase(word);
+                        q.push(word);
+                    }
+                }
+                word[i] = org;
+            }
+        }
+
+        if (mpp.count(endWord)) {
+            vector<string> seq;
+            seq.push_back(endWord);
+            dfs(endWord, seq);
+        }
+        return ans;
     }
 };
