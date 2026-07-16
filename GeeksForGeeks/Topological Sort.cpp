@@ -40,7 +40,7 @@ class Solution {
     }
 };
 
-// Approach 1 using BFS (Kahn's Algorithm)
+// Approach 2 using BFS (Kahn's Algorithm)
 // TC = O(V + E)
 // SC = O(V)
 class Solution {
