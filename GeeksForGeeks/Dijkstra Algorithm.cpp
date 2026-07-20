@@ -66,16 +66,11 @@ class Solution {
             for (auto i: adj[node]) {
                 int v = i.first;
                 int wt = i.second;
-                
-                if (dist[v] == 1e9) {
+
+                if (w + wt < dist[v]) {
+                    if (dist[v] != 1e9) st.erase({dist[v], v});
                     dist[v] = w + wt;
                     st.insert({dist[v], v});
-                } else {
-                    if (wt + w < dist[v]) {
-                        st.erase({dist[v], v});
-                        dist[v] = wt + w;
-                        st.insert({dist[v], v});
-                    }
                 }
             }
         }
