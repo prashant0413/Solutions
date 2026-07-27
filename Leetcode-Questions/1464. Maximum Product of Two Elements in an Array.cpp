@@ -12,3 +12,25 @@ public:
         return a * b;
     }
 };
+
+// Approach 2
+// TC = O(n)
+// SC = O(1)
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int a = nums[0];
+        int b = nums[1];
+        int maxi = (a - 1) * (b - 1);
+        for (int i = 2; i < nums.size(); i++) {
+            if (a < b && nums[i] > a) {
+                a = nums[i];
+                maxi = max(maxi, (a - 1) * (b - 1));
+            } else if (nums[i] > b) {
+                b = nums[i];
+                maxi = max(maxi, (a - 1) * (b - 1));
+            }
+        }
+        return maxi;
+    }
+};
