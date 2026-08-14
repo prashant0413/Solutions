@@ -1,4 +1,4 @@
-// Approach 1
+// Approach 1 Brute Force
 // TC = O(N^2)
 // SC = O(1)
 class Solution {
@@ -24,6 +24,28 @@ public:
                     maxLen = max(maxLen, j - i + 1);
                 }
             }
+        }
+        return maxLen;
+    }
+};
+
+// Approach 2 using Sliding window
+// TC = O(N)
+// SC = O(1)
+class Solution {
+public:
+    int maximumLengthSubstring(string s) {
+        int n = s.length();
+        int freq[26] = {0};
+        int l = 0;
+        int maxLen = 0;
+        for (int r = 0; r < n; r++) {
+            freq[s[r] - 'a']++;
+            while(freq[s[r] - 'a'] > 2) {
+                freq[s[l] - 'a']--;
+                l++;
+            }
+            maxLen = max(maxLen, r - l + 1);
         }
         return maxLen;
     }
