@@ -58,3 +58,15 @@ Contributions are welcome! If you have a more optimized solution or want to add 
 These solutions are for educational purposes. I encourage you to try solving the problems on your own before referring to the code here.
 
 **Never Give Up**
+
+<!---LeetCode Topics Start-->
+# LeetCode Topics
+## Array
+|  |
+| ------- |
+| [3904-smallest-stable-index-ii](https://github.com/prashant0413/Solutions/tree/master/3904-smallest-stable-index-ii) |
+## Prefix Sum
+|  |
+| ------- |
+| [3904-smallest-stable-index-ii](https://github.com/prashant0413/Solutions/tree/master/3904-smallest-stable-index-ii) |
+<!---LeetCode Topics End-->
