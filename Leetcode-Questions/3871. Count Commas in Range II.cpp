@@ -34,3 +34,27 @@ public:
         return cnt;
     }
 };
+
+// Same code but better readability
+class Solution {
+public:
+    long long countCommas(long long n) {
+        if (n < 1000) return 0;
+
+        long long cnt = 0;
+        long long bound = 1e15;
+        int commas = 5;
+
+        while (n >= 1000) {
+            if (n >= bound) {
+                long long digits = n - bound + 1;
+                cnt += digits * commas;
+                n -= digits;
+            }
+            bound = bound / 1e3;
+            commas -= 1;
+        }
+
+        return cnt;
+    }
+};
