@@ -1,6 +1,6 @@
 // Approach 1
-// TC = O(N log N)
-// SC = O(N)
+// TC: O(N log N)
+// SC: O(N)
 class Solution {
 public:
     struct cmp {
