@@ -1,0 +1,69 @@
+// APPROACH 1: USING CIRCULAR DOUBLY LINKED LIST
+// TC: O(N . K)
+// SC: O(N)
+class Node {
+  public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node(): val(0), prev(nullptr), next(nullptr) {}
+    Node(int x): val(x), prev(nullptr), next(nullptr) {}
+};
+
+class List {
+  public:
+    Node *head;
+    Node *last;
+    int size;
+    List(): head(nullptr), last(nullptr), size(0) {}
+    void add(int x) {
+        size++;
+        Node *newNode = new Node(x);
+        if (head == nullptr) {
+            head = last = newNode;
+        } else {
+            last->next = newNode;
+            newNode->next = head;
+            newNode->prev = last;
+            head->prev = newNode;
+            last = newNode;
+        }
+    }
+    void deleteNode(Node *node) {
+        size--;
+        if (node->prev)
+            node->prev->next = node->next;
+        if (node->next)
+            node->next->prev = node->prev;
+        if (node == last) {
+            last = node->prev;
+        }
+        if (node == head) {
+            head = node->next;
+        }
+        delete node;
+    }
+};
+
+class Solution {
+private:
+    void solve(int n, int k, List &l, Node *node) {
+        if (l.size == 1) return;
+        for (int i = 1; i < k; i++)
+            node = node->next;
+            
+        Node *nextNode = node->next;
+        l.deleteNode(node);
+        solve(n, k, l, nextNode);
+    }
+public:
+    int findTheWinner(int n, int k) {
+        List l;
+        for (int i = 1; i <= n; i++) {
+            l.add(i);
+        }
+        
+        solve(n, k, l, l.head);
+        return l.head->val;
+    }
+};
