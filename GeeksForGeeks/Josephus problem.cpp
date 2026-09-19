@@ -1,4 +1,26 @@
-// APPROACH 1: USING CIRCULAR DOUBLY LINKED LIST
+// APPROACH 1: USING ARRAY
+// TC: O(N . N)
+// SC: O(N)
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        vector<int> arr;
+        for (int i = 1; i <= n; i++) {
+            arr.push_back(i);
+        }
+
+        int i = 0;
+        while (arr.size() > 1) {
+            int idx = (i + k - 1) % arr.size();
+            arr.erase(arr.begin() + idx);
+            i = idx;
+        }
+
+        return arr[0];
+    }
+};
+
+// APPROACH 2: USING CIRCULAR DOUBLY LINKED LIST
 // TC: O(N . K)
 // SC: O(N)
 class Node {
