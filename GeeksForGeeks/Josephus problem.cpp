@@ -3,7 +3,7 @@
 // SC: O(N)
 class Solution {
 public:
-    int findTheWinner(int n, int k) {
+    int josephus(int n, int k) {
         vector<int> arr;
         for (int i = 1; i <= n; i++) {
             arr.push_back(i);
@@ -95,7 +95,7 @@ class Solution {
 // SC: O(N)
 class Solution {
 public:
-    int findTheWinner(int n, int k) {
+    int josephus(int n, int k) {
         queue<int> q;
         for (int i = 1; i <= n; i++)
             q.push(i);
