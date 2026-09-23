@@ -1,4 +1,4 @@
-// APPROACH 1
+// APPROACH 1: BRUTE FORCE
 // TC: O(N^2 . K)
 // SC: O(N)
 class Solution {
@@ -38,6 +38,31 @@ public:
             if (!found) {
                 res.push_back({strs[i]});
             }
+        }
+
+        return res;
+    }
+};
+
+// APPROACH 2: USING HASHMAP
+// TC: O(N . K)
+// SC: O(N)
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int n = strs.size();
+
+        unordered_map<string, vector<string>> mpp;
+
+        for (int i = 0; i < n; i++) {
+            string k = strs[i];
+            sort(k.begin(), k.end());
+            mpp[k].push_back(strs[i]);
+        }
+
+        vector<vector<string>> res;
+        for (auto it: mpp) {
+            res.push_back(it.second);
         }
 
         return res;
