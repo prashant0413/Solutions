@@ -45,7 +45,7 @@ public:
 };
 
 // APPROACH 2: USING HASHMAP
-// TC: O(N . K)
+// TC: O(N . K LOG K)
 // SC: O(N)
 class Solution {
 public:
