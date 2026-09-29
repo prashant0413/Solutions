@@ -25,27 +25,36 @@ public:
     }
 };
 
-// APPROACH 2: ? 
-// TC: O(?)
-// SC: O(?)
+// APPROACH 2: USING SLIDING WINDOW
+// TC: O(N)
+// SC: O(1)
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int l,r;
+        int n = s.length();
+        
+        int l, r;
         l = r = 0;
         int maxLen = 0;
-        vector<int> arr(26, 0);
-        int maxFreq = 0;
-        while (r < s.length()) {
-            arr[s[r] - 'A']++;
-            maxFreq = max(maxFreq, arr[s[r] - 'A']);
-            while ((r - l + 1) - maxFreq > k) {
-                arr[s[l] - 'A']--;
+        int mf = 0;
+        int freq[26] = {0};
+
+        while (r < n) {
+            freq[s[r] - 'A']++;
+            mf = max(mf, freq[s[r] - 'A']);
+
+            if ((r - l + 1) - mf > k) {
+                freq[s[l] - 'A']--;
                 l++;
             }
-            maxLen = max(maxLen, r - l + 1);
+
+            if ((r - l + 1) - mf <= k) {
+                maxLen = max(maxLen, r - l + 1);
+            }
+
             r++;
         }
+
         return maxLen;
     }
 };
