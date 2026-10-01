@@ -36,3 +36,44 @@ public:
         return false;
     }
 };
+
+// APPROACH 3: SLIDING WINDOW 
+// TC: O(N)
+// SC: O(1)
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int n = s2.length();
+        int m = s1.length();
+
+        int f1[26] = {0};
+        int f2[26] = {0};
+        for (char c: s1) {
+            f1[c - 'a']++;
+        }
+
+        int l, r;
+        l = r = 0;
+        while (r < n) {
+            f2[s2[r] - 'a']++;
+            if (r - l + 1 > m) {
+                f2[s2[l] - 'a']--;
+                l++;
+            }
+
+            if (r - l + 1 == m) {
+                bool match = true;
+                for (int i = 0; i < 26; i++) {
+                    if (f1[i] != f2[i]) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) return true;
+            }
+            r++;
+        }
+
+        return false;
+    }
+};
