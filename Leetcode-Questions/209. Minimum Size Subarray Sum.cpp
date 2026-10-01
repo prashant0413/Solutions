@@ -42,3 +42,32 @@ public:
         return ans == -1 ? 0 : ans;
     }
 };
+
+// APPROACH 2: USING SLIDING WINDOW 
+// TC: O(N)
+// SC: O(1)
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int n = nums.size();
+
+        int l, r;
+        long long sum = 0;
+        l = r = 0;
+        int minLen = INT_MAX;
+
+        while (r < n) {
+            sum += nums[r];
+
+            while (sum >= target) {
+                minLen = min(minLen, r - l + 1);
+                sum -= nums[l];
+                l++;
+            }
+
+            r++;
+        }
+
+        return minLen == INT_MAX ? 0 : minLen;
+    }
+};
