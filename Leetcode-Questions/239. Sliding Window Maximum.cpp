@@ -35,25 +35,33 @@ public:
     }
 };
 
+// APPROACH 1: USING DEQUE FOR IMPLEMENTING MONOTONIC STACK
+// TC: O(2N)
+// SC: O(K)
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        deque<int> dq;
-        vector<int> ans;
-        for (int i = 0; i < nums.size(); i++) {
-            
-            if (!dq.empty() && dq.front() <= i - k) {
-                dq.pop_front();
-            }
+        int n = nums.size();
 
+        vector<int> ans;
+        deque<int> dq;
+
+        for (int i = 0; i < n; i++) {
+            
+            // remove front element if window size increased
+            if (!dq.empty() && dq.front() <= i - k) dq.pop_front();
+
+            // remove element from back if larger comes int
             while (!dq.empty() && nums[dq.back()] <= nums[i]) {
                 dq.pop_back();
             }
 
             dq.push_back(i);
 
-            if (i >= k - 1)
+            // check if window is formed
+            if (i >= k - 1) {
                 ans.push_back(nums[dq.front()]);
+            }
         }
 
         return ans;
