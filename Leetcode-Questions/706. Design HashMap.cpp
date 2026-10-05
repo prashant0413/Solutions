@@ -55,8 +55,9 @@ public:
     MyHashMap() {}
     
     void put(int key, int value) {
-        if (l.isPresent(key)) {
-            remove(key);
+        Node* t = l.isPresent(key);
+        if (t) {
+            l.deleteNode(t);
         }
         l.add(key, value);
     }
