@@ -37,7 +37,7 @@ public:
 };
 
 
-// APPROACH 1: SLIDING WINDOW
+// APPROACH 2: SLIDING WINDOW
 // TC: O(N)
 // SC: O(256)
 class Solution {
