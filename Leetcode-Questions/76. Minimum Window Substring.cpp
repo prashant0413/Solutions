@@ -37,36 +37,44 @@ public:
 };
 
 
-
+// APPROACH 1: SLIDING WINDOW
+// TC: O(N)
+// SC: O(256)
 class Solution {
 public:
     string minWindow(string s, string t) {
         int m = s.length();
         int n = t.length();
+
+        if (n > m) return "";
+
+        int freq[256] = {0};
+        for (char c: t) freq[c]++;
+
+        int minLen = 1e6;
+        int st = -1;
+
+        int l, r;
+        r = l = 0;
         int cnt = 0;
-        int minLen = 1e5;
-        int stIdx = -1;
-        vector<int> hash(256, 0);
-        for (const char &c : t)
-            hash[c]++;
-        int l = 0, r = 0;
         while (r < m) {
-            if (hash[s[r]] > 0) {
-                cnt++;
-            }
-            hash[s[r]]--;
+            if (freq[s[r]] > 0) cnt++;
+            freq[s[r]]--;
+
             while (cnt == n) {
                 if (r - l + 1 < minLen) {
                     minLen = r - l + 1;
-                    stIdx = l;
+                    st = l;
                 }
-                hash[s[l]]++;
-                if (hash[s[l]] > 0)
-                    cnt--;
+
+                freq[s[l]]++;
+                if (freq[s[l]] > 0) cnt--;
                 l++;
             }
+
             r++;
         }
-        return  (stIdx == -1) ? "" : s.substr(stIdx, minLen);
+
+        return st == -1 ? "" : s.substr(st, minLen);
     }
 };
