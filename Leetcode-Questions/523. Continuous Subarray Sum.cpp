@@ -1,4 +1,4 @@
-// APPROACH 1: BRUTE FORCE
+// APPROACH 1: BRUTE FORCE (THIS GIVE TLE ON LEETCODE)
 // TC: O(N^2)
 // SC: O(1)
 class Solution {
