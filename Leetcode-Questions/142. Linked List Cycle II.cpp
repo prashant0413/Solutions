@@ -1,25 +1,27 @@
-class Solution
-{
+// APPROACH 2: USING SLOW AND FAST POINTER TECHNIQUE
+// TC: O(N)
+// SC: O(1)
+class Solution {
 public:
-    ListNode *detectCycle(ListNode *head)
-    {
-        ListNode *slow = head;
-        ListNode *fast = head;
-        while (fast != NULL && fast->next != NULL)
-        {
+    ListNode *detectCycle(ListNode *head) {
+        if (!head || !head->next) return nullptr;
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
-            if (slow == fast)
-            {
+            if (slow == fast) {
                 slow = head;
-                while (slow != fast)
-                {
+                while (slow != fast) {
                     slow = slow->next;
                     fast = fast->next;
                 }
                 return slow;
             }
         }
-        return NULL;
+
+        return nullptr;
     }
 };
