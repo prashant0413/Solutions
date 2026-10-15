@@ -28,3 +28,29 @@ public:
         return true;
     }
 };
+
+// APPROACH 2: USING HASHMAP
+// TC: O(N LOG N)
+// SC: O(N)
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        map<int, int> mpp;
+        for (auto &trip: trips) {
+            int passenger = trip[0];
+            int st = trip[1];
+            int en = trip[2];
+
+            mpp[st] += passenger;
+            mpp[en] -= passenger;
+        }
+
+        int totalPassenger = 0;
+        for (auto i: mpp) {
+            totalPassenger += i.second;
+            if (totalPassenger > capacity) return false;
+        }
+
+        return true;
+    }
+};
