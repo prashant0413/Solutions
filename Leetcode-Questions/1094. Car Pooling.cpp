@@ -54,3 +54,29 @@ public:
         return true;
     }
 };
+
+// APPROACH 3: USING LINESWEEP CONCEPT
+// TC: O(N) + O(1001)
+// SC: O(1001)
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        int diff[1001] = {0};
+        for (auto &trip: trips) {
+            int passenger = trip[0];
+            int st = trip[1];
+            int en = trip[2];
+
+            diff[st] += passenger;
+            diff[en] -= passenger;
+        }
+
+        int cumSum = 0;
+        for (int i = 0; i < 1001; i++) {
+            cumSum += diff[i];
+            if (cumSum > capacity) return false;
+        }
+
+        return true;
+    }
+};
