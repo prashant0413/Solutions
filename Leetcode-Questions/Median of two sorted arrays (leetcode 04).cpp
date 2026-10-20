@@ -1,42 +1,36 @@
+// APPROACH 1: USING BINARY SEARCH
+// TC: O(LOG MIN(M, N))
+// SC: O(1)
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-    // Ensure nums1 is the smaller array
-    if (nums1.size() > nums2.size()) {
-        return findMedianSortedArrays(nums2, nums1);
-    }
+        int m = nums1.size();
+        int n = nums2.size();
+        if (m > n) return findMedianSortedArrays(nums2, nums1);
 
-    int x = nums1.size();
-    int y = nums2.size();
-    int low = 0, high = x;
+        int low = 0;
+        int high = m;
+        while (low <= high) {
+            int px = low + (high - low) / 2;
+            int py = (m + n + 1) / 2 - px;
 
-    // nums1 = [1, 3, 8, 9, 15]
-    // nums2 = [7, 11, 18, 19, 21, 25]
-    
+            // LEFT SIDE
+            int x1 = (px == 0) ? INT_MIN : nums1[px - 1];
+            int x2 = (py == 0) ? INT_MIN : nums2[py - 1];
 
-    while (low <= high) {
-        int partitionX = (low + high) / 2;
-        int partitionY = (x + y + 1) / 2 - partitionX;
+            // RIGHT SIDE
+            int x3 = (px == m) ? INT_MAX : nums1[px];
+            int x4 = (py == n) ? INT_MAX : nums2[py];
 
-        int maxLeftX = (partitionX == 0) ? INT_MIN : nums1[partitionX - 1];
-        int minRightX = (partitionX == x) ? INT_MAX : nums1[partitionX];
-
-        int maxLeftY = (partitionY == 0) ? INT_MIN : nums2[partitionY - 1];
-        int minRightY = (partitionY == y) ? INT_MAX : nums2[partitionY];
-
-        if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
-            if ((x + y) % 2 == 0) {
-                return (max(maxLeftX, maxLeftY) + min(minRightX, minRightY)) / 2.0;
-            } else {
-                return max(maxLeftX, maxLeftY);
+            if (x1 <= x4 && x2 <= x3) {
+                if ((m + n) & 1) return max(x1, x2);
+                else return (max(x1, x2) + min(x3, x4)) / 2.0;
             }
-        } else if (maxLeftX > minRightY) {
-            high = partitionX - 1;
-        } else {
-            low = partitionX + 1;
-        }
-    }
 
-    throw invalid_argument("Input arrays are not sorted.");
-}
+            if (x1 > x4) high = px - 1;
+            else if (x2 > x3) low = px + 1;
+        }
+
+        return -1;
+    }
 };
