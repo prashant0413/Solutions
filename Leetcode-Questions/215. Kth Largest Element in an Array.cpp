@@ -26,12 +26,15 @@ public:
     }
 };
 
-
+// APPROACH 3: USING QUICK-SELECT ALGORITHM
+// TC: O(N); WORST CASE O(N^2)
+// SC: O(1)
 class Solution {
-    int partition(vector<int>& nums, int l, int r) {
-        int P = nums[l];
-        int i = l + 1;
-        int j = r;
+public:
+    int partition(vector<int> &nums, int L, int R) {
+        int P = nums[L];
+        int i = L + 1;
+        int j = R;
 
         while (i <= j) {
             if (nums[i] < P && nums[j] > P) {
@@ -40,35 +43,28 @@ class Solution {
                 j--;
             }
 
-            if (nums[i] >= P)
-                i++;
-            if (nums[j] <= P)
-                j--; 
+            if (nums[i] >= P) i++;
+            if (nums[j] <= P) j--;
         }
-        swap(nums[l], nums[j]);
+
+        swap(nums[L], nums[j]);
         return j;
     }
-public:
+
     int findKthLargest(vector<int>& nums, int k) {
         int n = nums.size();
-        int l = 0;
-        int r = n - 1;
 
-        int pivot = 0;
+        int L = 0;
+        int R = n - 1;
 
         while (true) {
-            pivot = partition(nums, l, r);
+            int p = partition(nums, L, R);
 
-            if (pivot == (k - 1))
-                break;
-            if (pivot > (k - 1))
-                r = pivot - 1;
-            else
-                l = pivot + 1;
+            if (p == (k - 1)) return nums[p];
+            else if (p > (k - 1)) R = p - 1;
+            else L = p + 1;
         }
 
-        return nums[pivot];
+        return -1;
     }
 };
-// using quickselect algorithm
-// O(n) on average, O(n2) in the worst case
