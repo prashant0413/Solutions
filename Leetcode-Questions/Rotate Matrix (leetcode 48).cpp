@@ -1,22 +1,18 @@
-class Solution
-{
+// APPROACH 1
+// TC: O(M . N)
+// SC: O(1)
+class Solution {
 public:
-    void rotate(vector<vector<int>> &matrix)
-    {
-        int n = matrix.size();
-
-        // transposing the matrix first
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = i + 1; j < n; j++)
-            {
+    void rotate(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        for (int i = 0; i < m; i++) {
+            for (int j = i + 1; j < n; j++) {
                 swap(matrix[i][j], matrix[j][i]);
             }
         }
 
-        // reversing each row
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < m; i++) {
             reverse(matrix[i].begin(), matrix[i].end());
         }
     }
