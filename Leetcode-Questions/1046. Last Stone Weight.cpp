@@ -1,21 +1,17 @@
-// Approach 1
-// TC = O(nlog(n))
-// SC = O(n)
+// APPROACH 1: USING MAX-HEAP
+// TC: O(N LOG N)
+// SC: O(N)
 class Solution {
 public:
     int lastStoneWeight(vector<int>& stones) {
-        int n = stones.size();
-        priority_queue<int> pq; // max-heap
-        for (int &i: stones) {
-            pq.push(i);
-        }
+        priority_queue<int> pq;
+        for (int i: stones) pq.push(i);
 
         while (pq.size() > 1) {
-            int x = pq.top(); pq.pop();
-            int y = pq.top(); pq.pop();
-            
-            if (x == y) continue;
-            pq.push(abs(y - x));
+            int p = pq.top(); pq.pop();
+            int q = pq.top(); pq.pop();
+            if (p == q) continue;
+            pq.push(abs(p - q));
         }
 
         return pq.empty() ? 0 : pq.top();
