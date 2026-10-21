@@ -1,3 +1,6 @@
+// APPROACH 1: SORTING
+// TC: O(N LOG N)
+// SC: O(1)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -5,8 +8,10 @@ public:
         return nums[k - 1];
     }
 };
-// O(nlog(n))
 
+// APPROACH 2: MIN-HEAP
+// TC: O(N LOG K)
+// SC: O(K)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -20,7 +25,6 @@ public:
         return pq.top();
     }
 };
-// O(nlog(k))
 
 
 class Solution {
