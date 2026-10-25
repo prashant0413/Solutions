@@ -1,0 +1,33 @@
+// APPROACH 1: SORTING AND MIN-HEAP
+// TC: O(N LOG N)
+// SC: O(N)
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+        int n = events.size();
+
+        sort(begin(events), end(events));
+        priority_queue<int, vector<int>, greater<int>> pq;
+        int i   = 0;
+        int day = events[0][0];
+        int cnt = 0;
+
+        while (i < n || !pq.empty()) {
+            if (pq.empty()) day = events[i][0];
+            while (i < n && events[i][0] == day) {
+                pq.push(events[i][1]);
+                i++;
+            }
+            
+            if (!pq.empty()) {
+                pq.pop();
+                cnt++;
+            }
+
+            day++;
+            while (!pq.empty() && pq.top() < day) pq.pop();
+        }        
+
+        return cnt;
+    }
+};
