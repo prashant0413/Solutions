@@ -1,15 +1,3 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-
-
 // Approach 1
 // TC =  O(M) + O(MLOG(M)) + O(M) WHERE M = N * K : N = no. of elements and K : no. of lists
 // SC = O(M) + O(M)
