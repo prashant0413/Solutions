@@ -37,3 +37,26 @@ public:
         return time;
     }
 };
+
+// APPROACH 2: GREEDY
+// TC: O(N)
+// SC: O(1)
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        vector<int> mpp(26, 0);
+        for (char ch: tasks) {
+            mpp[ch - 'A']++;
+        }
+
+        sort(begin(mpp), end(mpp), greater<int>());
+        int maxFreq = mpp[0];
+        int cavities = maxFreq - 1;
+        int idleSpots = cavities * n;
+        for (int i = 1; i < 26; i++) {
+            idleSpots = idleSpots - min(mpp[i], cavities);
+        }
+        
+        return (idleSpots > 0) ? tasks.size() + idleSpots : tasks.size();
+    }
+};
