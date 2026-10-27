@@ -18,7 +18,7 @@ public:
     }
 };
 
-// APPROACH 2: USING RECUSION
+// APPROACH 2: USING RECURSION
 // TC: O(N . N!)
 // SC: O(N)
 class Solution {
