@@ -1,28 +1,25 @@
+// APPROACH 1: RECURSIVE
+// TC: O(N . 4^N)
+// SC: O(N) + 
 class Solution {
-    vector<string> result;
-
-    void solve(int ix, string &str, string &s, unordered_map<char, string> &mpp) {
-        if (ix >= str.length()) {
-            result.push_back(s);
+    int n;
+    unordered_map<char, string> mpp;
+private:
+    void solve(int i, string &digits, vector<string> &ans, string &str) {
+        if (i >= n) {
+            ans.push_back(str);
             return;
         }
 
-        char ch = str[ix];
-        string k = mpp[ch];
-
-        for (int i = 0; i < k.length(); i++) {
-            s.push_back(k[i]);
-            solve(ix + 1, str, s, mpp);
-            s.pop_back();
-        }
+        char d = digits[i];
+        for (int j = 0; j < mpp[d].size(); j++) {
+            str.push_back(mpp[d][j]);
+            solve(i + 1, digits, ans, str);
+            str.pop_back();
+        } 
     }
 public:
-    vector<string> letterCombinations(string digits) {
-        if (digits.length() == 0) {
-            return {};
-        }
-
-        unordered_map<char, string> mpp;
+    Solution() {
         mpp['2'] = "abc";
         mpp['3'] = "def";
         mpp['4'] = "ghi";
@@ -31,10 +28,13 @@ public:
         mpp['7'] = "pqrs";
         mpp['8'] = "tuv";
         mpp['9'] = "wxyz";
+    }
 
-        string s = "";
-
-        solve(0, digits, s, mpp);
-        return result;
+    vector<string> letterCombinations(string digits) {
+        n = digits.length();
+        vector<string> ans;
+        string str = "";
+        solve(0, digits, ans, str);
+        return ans;
     }
 };
