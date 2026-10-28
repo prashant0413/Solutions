@@ -29,8 +29,8 @@ public:
 };
 
 // APPROACH 2: USING TABULATION AND BITSET
-// TC: O(1024 MN)
-// SC: O(1024 MN)
+// TC: O(1024 M N)
+// SC: O(1024 M N)
 class Solution {
 public:
     int minCost(vector<vector<int>>& grid) {
