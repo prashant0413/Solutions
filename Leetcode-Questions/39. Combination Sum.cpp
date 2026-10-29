@@ -1,26 +1,31 @@
+// APPROACH 1: USING RECURSION
+// TC: O(2^T . K)
+// SC: O(K . N)
 class Solution {
-    vector<vector<int>> result;
+public:
+    void solve(int i, vector<int>& candidates, int target, vector<int> &temp, vector<vector<int>> &res, int sum) {
+        if (sum > target) return;
 
-    void solve(vector<int> &arr, int target, int i, vector<int> &temp) {
-        if (target == 0) {
-            result.push_back(temp);
-            return;;
+        if (sum == target) {
+            res.push_back(temp);
+            return;
         }
 
-        if (i == arr.size())
-            return;
+        if (i >= candidates.size()) return;
 
-        if (arr[i] <= target) {
-            temp.push_back(arr[i]);
-            solve(arr, target - arr[i], i, temp);
+        if (candidates[i] + sum <= target) {
+            temp.push_back(candidates[i]);
+            solve(i, candidates, target, temp, res, sum + candidates[i]);
             temp.pop_back();
         }
-        solve(arr, target, i + 1, temp);
+
+        solve(i + 1, candidates, target, temp, res, sum);
     }
-public:
+
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
         vector<int> temp;
-        solve(candidates, target, 0, temp);
-        return result;
+        solve(0, candidates, target, temp, res, 0);
+        return res; 
     }
 };
