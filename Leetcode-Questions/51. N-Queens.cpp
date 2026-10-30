@@ -53,36 +53,43 @@ public:
     }
 };
 
-
+// APPROACH 2: USING BACKTRACKING WITH OPTIMIZATION
+// TC: O(N!)
+// SC: O(N) + O(N^2) + O(5N)
 class Solution {
-    void solve(int col, vector<string> &board, vector<vector<string>> &ans, vector<int> &rows, 
-        vector<int> &upperDiagonal, vector<int> &lowerDiagonal, int n) {
-            if (col == n) {
-                ans.push_back(board);
-                return;
-            }
-
-            for (int row = 0; row < n; row++) {
-                if (rows[row] == 0 && lowerDiagonal[row + col] == 0 && 
-                upperDiagonal[n - 1 + col - row] == 0) {
-                    board[row][col] = 'Q';
-                    rows[row] = 1;
-                    lowerDiagonal[row + col] = 1;
-                    upperDiagonal[n - 1 + col - row] = 1;
-                    solve(col + 1, board, ans, rows, upperDiagonal, lowerDiagonal, n);
-                    board[row][col] = '.';
-                    rows[row] = 0;
-                    lowerDiagonal[row + col] = 0;
-                    upperDiagonal[n - 1 + col - row] = 0;
-                }
-            }
-    }
 public:
+    void solve(int row, vector<string> &arr, vector<vector<string>> &res, int n, vector<bool> &column, vector<bool> &leftDiag, vector<bool> &rightDiag) {
+        if (row == n) {
+            res.push_back(arr);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (!column[col] && !leftDiag[n - 1 + col - row] && !rightDiag[row + col]) {
+                column[col] = true;
+                leftDiag[n - 1 + col - row] = true;
+                rightDiag[row + col] = true;
+
+                arr[row][col] = 'Q';
+                solve(row + 1, arr, res, n, column, leftDiag, rightDiag);
+                arr[row][col] = '.';
+
+                column[col] = false;
+                leftDiag[n - 1 + col - row] = false;
+                rightDiag[row + col] = false;
+            }
+        }
+    }
+
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> ans;
-        vector<string> board(n, string(n, '.'));
-        vector<int> row(n, 0), upperDiagonal(2 * n - 1, 0), lowerDiagonal(2 * n - 1, 0);
-        solve(0, board, ans, row, upperDiagonal, lowerDiagonal, n);
-        return ans;
+        vector<vector<string>> res;
+        vector<string> arr(n, string(n, '.'));
+
+        vector<bool> column(n, false);
+        vector<bool> leftDiag(2 * n - 1, false);
+        vector<bool> rightDiag(2 * n - 1, false);
+
+        solve(0, arr, res, n, column, leftDiag, rightDiag);
+        return res;
     }
 };
