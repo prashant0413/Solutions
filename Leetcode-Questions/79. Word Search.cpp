@@ -1,44 +1,46 @@
+// APPROACH 1: USING BACKTRACKING
+// TC: O(4^(M N))
+// SC: O(M N)
 class Solution {
-    int m;
-    int n;
-    vector<vector<int>> directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-    bool find(vector<vector<char>>& board, int i, int j, int idx, string &word) {
-        if (idx == word.length())
-            return true;
-
-        if (i < 0 || j < 0 || i >= m || j >= n || board[i][j] == '$')
-            return false;
-
-        if (board[i][j] != word[idx])
-            return false;
-
-        char temp = board[i][j];
-        board[i][j] = '$';
-
-        for (auto &dir: directions) {
-            int ic = i + dir[0];
-            int jc = j + dir[1];
-
-            if (find(board, ic, jc, idx + 1, word))
-                return true;
-        }
-
-        board[i][j] = temp;
-        return false;
-    }
+    int m, n;
 public:
-    bool exist(vector<vector<char>>& board, string word) {
-        m = board.size();
-        n = board[0].size();
+    bool backTrack(int i, int j, int idx, vector<vector<char>>& board, string word, vector<vector<int>> &dir) {
+        if (idx >= word.size()) return true;
+        char c = board[i][j];
+        board[i][j] = '#';
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] == word[0] && find(board, i, j, 0, word)) {
-                    return true;
+        for (int k = 0; k < 4; k++) {
+            int nr = i + dir[k][0];
+            int nc = j + dir[k][1];
+            if (nr >= 0 && nr < m && nc >= 0 && nc < n) {
+                if (board[nr][nc] == word[idx]) {
+                    if (backTrack(nr, nc, idx + 1, board, word, dir)) {
+                        board[i][j] = c;
+                        return true;
+                    } 
                 }
             }
         }
 
+        board[i][j] = c;
         return false;
+    }
+
+    bool solve(vector<vector<char>>& board, string word) {
+        vector<vector<int>> dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == word[0]) {
+                    if (backTrack(i, j, 1, board, word, dir)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        m = board.size();
+        n = board[0].size();
+        return solve(board, word);
     }
 };
