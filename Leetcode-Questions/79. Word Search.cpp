@@ -1,5 +1,5 @@
 // APPROACH 1: USING BACKTRACKING
-// TC: O(4^(M N))
+// TC: O(M N 4^(M N))
 // SC: O(M N)
 class Solution {
     int m, n;
