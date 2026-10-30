@@ -1,30 +1,34 @@
+// APPROACH 1: BACKTRACKING 
+// TC: O(N . 2^N)
+// SC: O(N)
 class Solution {
-    bool isPalindrome(string &s, int start, int end) {
-        while (start <= end) {
-            if (s[start++] != s[end--])
-                return false;
+public:
+    bool isPalindrome(string &s, int l, int r) {
+        while (l <= r) {
+            if (s[l] != s[r]) return false; l++; r--;
         }
         return true;
     }
-    void solve(string &s, int index, vector<string> &path, vector<vector<string>> &res) {
-        if (index >= s.length()) {
-            res.push_back(path);
+
+    void solve(int idx, string &s, vector<string> &temp, vector<vector<string>> &res) {
+        if (idx >= s.length()) {
+            res.push_back(temp);
             return;
         }
-        for (int i = index; i < s.length(); i++) {
-            if (isPalindrome(s, index, i)) {
-                path.push_back(s.substr(index, i - index + 1));
-                solve(s, i + 1, path, res);
-                path.pop_back();
+
+        for (int i = idx; i < s.length(); i++) {
+            if (isPalindrome(s, idx, i)) {
+                temp.push_back(s.substr(idx, i - idx + 1));
+                solve(i + 1, s, temp, res);
+                temp.pop_back();                 
             }
         }
-    }
-public:
+    } 
+
     vector<vector<string>> partition(string s) {
         vector<vector<string>> res;
-        vector<string> path;
-        solve(s, 0, path, res);
+        vector<string> temp;
+        solve(0, s, temp, res);
         return res;
     }
 };
-auto init = atexit([]() { ofstream("display_runtime.txt") << "0"; });
