@@ -1,6 +1,6 @@
-// Approach 1 (Recursive)
-// TC = O(N)
-// SC = O(N)
+// APPROACH 1 RECURSIVE
+// TC: O(N)
+// SC: O(N)
 class Solution {
     vector<int> ans;
 public:
@@ -15,9 +15,9 @@ public:
 };
 
 
-// Approach 2 (Iterarive)
-// TC = O(N)
-// SC = O(N)
+// APPROACH 2 ITERATIVE
+// TC: O(N)
+// SC: O(N)
 class Solution {
 public:
     void solve(TreeNode* root, vector<int> &ans) {
@@ -43,9 +43,9 @@ public:
     }
 };
 
-// Approach 3 (Morris Traversal)
-// TC = O(N)
-// SC = O(N)
+// APPROACH 3: MORRIS TRAVERSAL
+// TC: O(N)
+// SC: O(1)
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
