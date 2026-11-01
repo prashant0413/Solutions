@@ -1,6 +1,6 @@
-// Approach 1
-// TC = O(N)
-// SC = O(N)
+// APPROACH 1: NAIVE
+// TC: O(N)
+// SC: O(N)
 class Solution {
 public:
     vector<int> inorder(TreeNode* root) {
@@ -44,35 +44,34 @@ public:
     }
 };
 
-// Approach 1
-// TC = O(N)
-// SC = O(1)
-class BSTIterator {
+// APPROACH 2: USING BST_ITERATOR
+// TC: O(N)
+// SC: O(1)
+class BST_Iterator {
+private:
     stack<TreeNode*> st;
-    bool isBefore;
+    bool isBack;
 public:
-    BSTIterator(TreeNode* root, bool before) {
-        isBefore = before;
+    BST_Iterator(TreeNode* root, bool isBack) {
+        this->isBack = isBack;
         addAll(root);
     }
 
     int next() {
-        TreeNode* curr = st.top();
-        st.pop();
-        if (!isBefore) addAll(curr->right);
-        else addAll(curr->left);
-        return curr->val;
+        TreeNode* temp = st.top(); st.pop();
+        (isBack) ? addAll(temp->left) : addAll(temp->right);
+        return temp->val;
+    }
+    
+    bool hasNext() {
+        return !st.empty();
     }
 
 private:
     void addAll(TreeNode* root) {
         while (root) {
             st.push(root);
-            if (isBefore) {
-                root = root->right;
-            } else {
-                root = root->left;
-            }
+            root = isBack ? root->right : root->left;
         }
     }
 };
@@ -81,15 +80,17 @@ class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
         if (!root) return false;
-        BSTIterator low(root, false);
-        BSTIterator high(root, true);
-        int i = low.next();
-        int j = high.next();
+        BST_Iterator l(root, 0);
+        BST_Iterator r(root, 1);
+
+        int i = l.next();
+        int j = r.next();
         while (i < j) {
             if (i + j == k) return true;
-            if (i + j < k) i = low.next();
-            else j = high.next();
+            if (i + j > k) j = r.next();
+            else i = l.next();
         }
+        
         return false;
     }
 };
