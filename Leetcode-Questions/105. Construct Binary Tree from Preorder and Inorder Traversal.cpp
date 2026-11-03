@@ -1,6 +1,6 @@
-// Approach 1
-// TC = O(N)
-// SC O(N)
+// APPROACH 1
+// TC: O(N)
+// SC: O(N)
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, int preSt, int preEnd, vector<int>& inorder, int inSt, int inEnd,  unordered_map<int, int> &inMap) {
@@ -17,9 +17,7 @@ public:
 
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         unordered_map<int, int> inMap;
-        for (int i = 0; i < inorder.size(); i++) {
-            inMap[inorder[i]] = i;
-        }
+        for (int i = 0; i < inorder.size(); i++) inMap[inorder[i]] = i;
 
         TreeNode* root = buildTree(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1, inMap);
         return root;
