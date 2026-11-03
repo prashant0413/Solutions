@@ -21,3 +21,28 @@ public:
         return -1;
     }
 };
+
+// APPROACH 2: GREEDY
+// TC: O(N)
+// SC: O(1)
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int kamai = accumulate(begin(gas), end(gas), 0);
+        int kharch = accumulate(begin(cost), end(cost), 0);
+        if (kamai < kharch) return -1;
+
+        int res = 0;
+        int total = 0;
+        for (int i = 0; i < n; i++) {
+            total += gas[i] - cost[i];
+            if (total < 0) {
+                res = i + 1;
+                total = 0;
+            }
+        }
+
+        return res;
+    }
+};
