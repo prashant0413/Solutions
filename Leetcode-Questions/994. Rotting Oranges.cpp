@@ -1,6 +1,6 @@
-// Approach 1
-// TC = O(m * n)
-// SC = O(m * n)
+// APPROACH 1: BFS TRAVERSAL
+// TC: O(M . N)
+// SC: O(M . N)
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
