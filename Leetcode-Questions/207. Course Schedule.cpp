@@ -1,39 +1,34 @@
-// Approach 1
-// TC = O(V + 2E)
-// SC = O(V)
+// APPROACH 1: DFS DIRECTED CYCLE DETECTION
+// TC: O(V + E)
+// SC: O(V)
 class Solution {
-public:
-    bool dfs(int node, vector<bool> &vis, vector<bool> &pathVis,  vector<int> adj[]) {
+private:
+    bool dfs(int node, vector<int> adj[], vector<bool> &vis, vector<bool> &pathVis) {
         vis[node] = true;
         pathVis[node] = true;
-        for (int &i: adj[node]) {
-            if (!vis[i]) {
-                if (dfs(i, vis, pathVis, adj)) {
-                    return true;
-                }
-            } else {
-                if (pathVis[i]) return true;
-            }
+         for (int i: adj[node]) {
+            if (vis[i] && pathVis[i]) return false;
+            if (vis[i]) continue;
+            if (!dfs(i, adj, vis, pathVis)) return false;
         }
-        pathVis[node] = false;
-        return false;
-    }
 
+        pathVis[node] = false;
+        return true;
+    }
+public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<int> adj[numCourses];
-        for (int i = 0; i < prerequisites.size(); i++) {
-            int u = prerequisites[i][0];
-            int v = prerequisites[i][1];
-            adj[u].push_back(v);
+        for (auto prerequisite: prerequisites) {
+            adj[prerequisite[0]].push_back(prerequisite[1]);
         }
 
         vector<bool> vis(numCourses, false);
         vector<bool> pathVis(numCourses, false);
         for (int i = 0; i < numCourses; i++) {
-            if (!vis[i]) {
-                if (dfs(i, vis, pathVis, adj)) return false;
-            }
+            if (vis[i]) continue;
+            if (!dfs(i, adj, vis, pathVis)) return false;
         }
+
         return true;
     }
 };
