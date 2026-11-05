@@ -1,6 +1,6 @@
-// Approach 1
-// TC = O(V + E)
-// SC = O(V)
+// APPROACH 1: TOPOLOGICAL SORT
+// TC: O(V + E)
+// SC: O(V)
 class Solution {
 public:
     vector<int> findOrder(int V, vector<vector<int>>& prerequisites) {
