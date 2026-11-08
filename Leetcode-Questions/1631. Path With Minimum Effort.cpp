@@ -1,35 +1,40 @@
-// Approach 1
-// TC = O(m * n(LOG(m*n)))
-// SC = O(m*n)
+// APPROACH 1: SHORTEST PATH ALGORITHM
+// TC: O(4.M.N LOG M.N)
+// SC: O(M.N)
 class Solution {
+    typedef pair<int, pair<int, int>> pp;
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
         int m = heights.size();
         int n = heights[0].size();
 
-        vector<vector<int>> dist(m, vector<int>(n, 1e9));
-        dist[0][0] = 0;
-        priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+        vector<vector<int>> effort(m, vector<int>(n, 1e9));
+        int drow[] = {0, 1, 0, -1};
+        int dcol[] = {1, 0, -1, 0};
+        priority_queue<pp, vector<pp>, greater<pp>> pq;
+        effort[0][0] = 0;
         pq.push({0, {0, 0}});
-        int drow[] = {-1, 0, 1, 0};
-        int dcol[] = {0, 1, 0, -1};
-        while(!pq.empty()) {
-            int d = pq.top().first;
-            int r = pq.top().second.first;
-            int c = pq.top().second.second;
-            pq.pop();
+        while (!pq.empty()) {
+            auto it = pq.top(); pq.pop();
+            int row = it.second.first;
+            int col = it.second.second;
+            int diff = it.first;
+
+            if (row == m - 1 && col == n - 1) return diff;
 
             for (int i = 0; i < 4; i++) {
-                int nr = r + drow[i];
-                int nc = c + dcol[i];
-
-                if (nr >= 0 && nr < m && nc >= 0 && nc < n && dist[nr][nc] > max(abs(heights[r][c] - heights[nr][nc]), d)) {
-                    dist[nr][nc] =  max(abs(heights[r][c] - heights[nr][nc]), d);
-                    pq.push({dist[nr][nc], {nr, nc}});
+                int nr = row + drow[i];
+                int nc = col + dcol[i];
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n) {
+                    int newEffort = max(diff, abs(heights[row][col] - heights[nr][nc]));
+                    if (newEffort < effort[nr][nc]) {
+                        effort[nr][nc] = newEffort;
+                        pq.push({newEffort, {nr, nc}});
+                    }
                 }
             }
         }
 
-        return dist[m - 1][n - 1];
+        return -1;
     }
 };
