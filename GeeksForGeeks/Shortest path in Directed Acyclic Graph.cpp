@@ -1,53 +1,47 @@
-// Approach 1
-// TC = O(V + E)
-// SC = O(V)
+// APPROACH 1: TOPOSORT
+// TC: O(V + E)
+// SC: O(V)
 class Solution {
 private:
-    void topo(int node, stack<int> &st, vector<bool> &vis, vector<pair<int, int>> adj[]) {
-        vis[node] = true;
-        for (auto it: adj[node]) {
-            if (!vis[it.first]) {
-                topo(it.first, st, vis, adj);
-            }
-        }
-        st.push(node);
-    }
-public:
-    vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
-        // creating adjancency list
-        vector<pair<int, int>> adj[V];
-        for (auto it: edges) {
-            int u = it[0];
-            int v = it[1];
-            int w = it[2];
-            adj[u].push_back({v, w});
+    void toposort(int i, vector<pair<int, int>> adj[], vector<bool> &vis, stack<int> &st) {
+        vis[i] = true;
+        
+        for (auto it: adj[i]) {
+            if (!vis[it.first]) toposort(it.first, adj, vis, st);
         }
         
-        // topo sort
+        st.push(i);
+    }
+public:
+    vector<int> shortestPath(int V, vector<vector<int>>& edges) {
+        vector<pair<int, int>> adj[V];
+        for (auto edge: edges) {
+            adj[edge[0]].push_back({edge[1], edge[2]});
+        }
+        
         stack<int> st;
         vector<bool> vis(V, false);
         for (int i = 0; i < V; i++) {
-            if (!vis[i])
-                topo(i, st, vis, adj);
+            if (!vis[i]) {
+                toposort(i, adj, vis, st);
+            }
         }
         
-        vector<int> dist(V, 1e9);
-
-        // relaxing the distances
+        vector<int> dist(V, -1);
         dist[0] = 0;
         while (!st.empty()) {
             int node = st.top(); st.pop();
+            if (dist[node] == -1) continue;
+            
             for (auto it: adj[node]) {
-                int v = it.first;
-                int d = it.second;
-                
-                if (dist[node] + d < dist[v]) {
-                    dist[v] = dist[node] + d;
+                int adjNode = it.first;
+                int edgeWeight = it.second;
+                if ((dist[adjNode] == -1 )|| (dist[node] + edgeWeight < dist[adjNode])) {
+                    dist[adjNode] = dist[node] + edgeWeight;
                 }
             }
         }
         
-        for (int i = 0; i < V; i++) dist[i] = dist[i] == 1e9 ? -1 : dist[i];
         return dist;
     }
 };
