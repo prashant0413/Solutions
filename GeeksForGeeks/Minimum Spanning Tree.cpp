@@ -1,44 +1,33 @@
-// Approach 1
-// TC = O(E*LOG(E))
-// SC = O(E)
+// APPROACH 1: PRIM'S ALGORITHM
+// TC: O(E LOG E)
+// SC: O(E)
 class Solution {
   public:
-    int spanningTree(int V, vector<vector<int>>& edges) {
-        // Prim's Algorithm
-        vector<pair<int, int>> adj[V];
-        for (auto it: edges) {
-            int u = it[0];
-            int v = it[1];
-            int w = it[2];
-            adj[u].push_back({v, w});
-            adj[v].push_back({u, w});
-        }
-        
-        int totalCost = 0;
-        vector<bool> visited(V, false);
-        
-        priority_queue<pair<int, int>, 
-        vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    int primMST(vector<vector<vector<int>>> &adj) {
+        int V = adj.size();
+        // {dist, {u, v}}
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({0, 0});
-        
+        vector<bool> vis(V, false);
+        int cost = 0;
+        int cnt = 0;
         while (!pq.empty()) {
             auto it = pq.top(); pq.pop();
+            int d = it.first;
             int node = it.second;
-            int wt = it.first;
+            if (vis[node]) continue;
             
-            if (visited[node]) continue;
+            vis[node] = true;
+            cost += d;
             
-            visited[node] = true;
-            totalCost += wt;
-            
-            for (auto i: adj[node]) {
-                int v = i.first;
-                int w = i.second;
-                if (!visited[v]) {
-                    pq.push({w, v});
-                }
+            for (auto it: adj[node]) {
+                int v = it[0];
+                int w = it[1];
+                if (vis[v]) continue;
+                pq.push({w, v});
             }
         }
-        return totalCost;
+        
+        return cost;
     }
 };
