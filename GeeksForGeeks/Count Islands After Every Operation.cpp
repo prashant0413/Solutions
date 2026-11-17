@@ -1,19 +1,18 @@
-// Approach 1
-// TC = O(K)
-// SC = O(m*n)
+// APPROACH 1: USING DISJOINT SET TECHNIQUE
+// TC: O(K)
+// SC: O(M.N)
 class DisjointSet {
-    vector<int> size;
     vector<int> parent;
+    vector<int> size;
 public:
-    DisjointSet(int n) {
+    DisjointSet (int n) {
         size.resize(n, 1);
         parent.resize(n);
         for (int i = 0; i < n; i++) parent[i] = i;
     }
     
     int findUpar(int node) {
-        if (node == parent[node]) return node;
-        return parent[node] = findUpar(parent[node]);
+        return node == parent[node] ? node : parent[node] = findUpar(parent[node]);
     }
     
     void unionBySize(int u, int v) {
@@ -21,48 +20,51 @@ public:
         int up_v = findUpar(v);
         if (up_u == up_v) return;
         if (size[up_u] < size[up_v]) {
-            size[up_v] += size[up_u];
             parent[up_u] = up_v;
+            size[up_v] += size[up_u];
         } else {
-            size[up_u] += size[up_v];
             parent[up_v] = up_u;
+            size[up_u] += size[up_v];
         }
     }
 };
 
 class Solution {
-  public:
+public:
     vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
+        vector<vector<int>> grid(n, vector<int>(m, 0));
         DisjointSet ds(n * m);
-        int vis[n][m];
-        memset(vis, 0, sizeof(vis));
-        vector<int> ans;
         int cnt = 0;
+        vector<int> ans;
         int drow[] = {-1, 0, 1, 0};
         int dcol[] = {0, 1, 0, -1};
         for (auto it: operators) {
             int row = it[0];
             int col = it[1];
-            if (vis[row][col] == 1) {
+            int idx = row * m + col;
+            
+            if (grid[row][col] == 1) {
                 ans.push_back(cnt);
                 continue;
             }
-            vis[row][col] = 1;
+            
+            grid[row][col] = 1;
             cnt++;
-            for (int i = 0; i < 4; i++) {
-                int nr = row + drow[i];
-                int nc = col + dcol[i];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < m && vis[nr][nc] == 1) {
-                    int nodeNo = row * m + col;
-                    int adjNo = nr * m + nc;
-                    if (ds.findUpar(nodeNo) != ds.findUpar(adjNo)) {
+            
+            for (int k = 0; k < 4; k++) {
+                int nr = row + drow[k];
+                int nc = col + dcol[k];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < m && grid[nr][nc] == 1) {
+                    int num = nr * m + nc;
+                    if (ds.findUpar(num) != ds.findUpar(idx)) {
                         cnt--;
-                        ds.unionBySize(nodeNo, adjNo);
+                        ds.unionBySize(num, idx);
                     }
                 }
-            }
+            } 
             ans.push_back(cnt);
         }
+        
         return ans;
     }
 };
