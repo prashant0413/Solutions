@@ -15,7 +15,7 @@ public:
     }
 };
 
-// APPROACH 2: RECURSION WITH DP
+// APPROACH 2: RECURSION WITH DP - TOP TO BOTTOM
 // TC: O(N)
 // SC: O(N)
 class Solution {
@@ -31,5 +31,23 @@ public:
         int n = height.size();
         vector<int> dp(n, -1);
         return solve(0, height, n, dp);
+    }
+};
+
+// APPROACH 3: DP - BOTTOM TO TOP
+// TC: O(N)
+// SC: O(N)
+class Solution {
+  public:
+    int minCost(vector<int>& height) {
+        int n = height.size();
+        vector<int> dp(n, 0);
+        for (int i = 1; i < n; i++) {
+            int fs = dp[i - 1] + abs(height[i] - height[i - 1]);
+            int ss = INT_MAX;
+            if (i > 1) ss = dp[i - 2] + abs(height[i] - height[i - 2]);
+            dp[i] = min(fs, ss);
+        }
+        return dp[n - 1];
     }
 };
