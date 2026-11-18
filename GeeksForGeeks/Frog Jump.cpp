@@ -54,7 +54,7 @@ class Solution {
 
 // APPROACH 4: DP - BOTTOM TO TOP WITH SPACE OPTIMIZATION
 // TC: O(N)
-// SC: O(`)
+// SC: O(1)
 class Solution {
   public:
     int minCost(vector<int>& height) {
