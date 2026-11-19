@@ -36,3 +36,25 @@ public:
         return dp[n - 1];
     }
 };
+
+// APPROACH 3: DP TABULATION (BOTTOM UP) WITH SPACE OPTIMIZATION
+// TC: O(N)
+// SC: O(1)
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 0);
+        dp[0] = nums[0];
+        int prev1 = nums[0];
+        int prev2 = 0;
+        for (int i = 1; i < n; i++) {
+            int take = nums[i] + prev2;
+            int notTake = 0 + prev1;
+            int curr = max(take, notTake);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
+};
