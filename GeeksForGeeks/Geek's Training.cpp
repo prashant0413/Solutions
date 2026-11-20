@@ -47,3 +47,32 @@ class Solution {
         return dp[n - 1][3];
     }
 };
+
+// APPROACH 3: DP TABULATION (BOTTOM UP) WITH SPACE OPTIMIZATION
+// TC: O(4.3.N)
+// SC: O(4)
+class Solution {
+  public:
+    int maximumPoints(vector<vector<int>>& mat) {
+        int n = mat.size();
+        vector<int> dp(4, 0);
+        
+        dp[0] = max(mat[0][1], mat[0][2]);
+        dp[1] = max(mat[0][0], mat[0][2]);
+        dp[2] = max(mat[0][0], mat[0][1]);
+        dp[3] = max(mat[0][0], max(mat[0][1], mat[0][2]));
+        
+        for (int i = 1; i < n; i++) {
+            vector<int> temp(4, 0);
+            for (int last = 0; last < 4; last++) {
+                for (int tasks = 0; tasks < 3; tasks++) {
+                    if (tasks == last) continue;
+                    temp[last] = max(temp[last], dp[tasks] + mat[i][tasks]);
+                }
+            }
+            dp = temp;
+        }
+        
+        return dp[3];
+    }
+};
