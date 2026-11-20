@@ -56,3 +56,32 @@ public:
         return *min_element(begin(dp[n - 1]), end(dp[n - 1]));
     }
 };
+
+// APPROACH 2: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(N^2)
+// SC: O(N)
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        vector<int> prev(n, 0);
+        for (int i = 0; i < n; i++) {
+            vector<int> temp(n, 0);
+            for (int j = 0; j < n; j++) {
+                if (i == 0) temp[j] = matrix[i][j];
+                else {
+                    int mini = INT_MAX;
+                    for (int k = -1; k <= 1; k++) {
+                        int nr = i - 1;
+                        int nc = j + k;
+                        if (nc >= 0 && nc < n) mini = min(mini, prev[nc]);
+                    }
+                    temp[j] = matrix[i][j] + mini;
+                }
+            }
+            prev = temp;
+        }
+
+        return *min_element(begin(prev), end(prev));
+    }
+};
