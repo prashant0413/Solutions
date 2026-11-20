@@ -35,3 +35,25 @@ public:
         return  solve(m - 1, n - 1, m, n, path, dp);
     }
 };
+
+// APPROACH 2: DP TABULATION 
+// TC: O(M.N)
+// SC: O(M.N)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        dp[0][0] = 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) continue;
+                int cnt = 0;
+                cnt += (i - 1 < 0) ? 0 : dp[i - 1][j];
+                cnt += (j - 1 < 0) ? 0 : dp[i][j - 1];
+                dp[i][j] = cnt;
+            }
+        }
+
+        return dp[m - 1][n - 1];
+    }
+};
