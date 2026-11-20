@@ -22,7 +22,7 @@ public:
 };
 
 // APPROACH 2: DP TABULATION (BOTTOM UP)
-// TC: O(4N)
+// TC: O(4.3.N)
 // SC: O(4N)
 class Solution {
   public:
