@@ -58,3 +58,33 @@ public:
         return dp[m - 1][n - 1];
     }
 };
+
+// APPROACH 3: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(M.N)
+// SC: O(N)
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        if (obstacleGrid[m - 1][n - 1] == 1 || obstacleGrid[0][0] == 1) return 0;
+        vector<int> dp(n, 0);
+        dp[0] = 1;
+        for (int i = 0; i < m; i++) {
+            vector<int> temp(n, 0);
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0 || obstacleGrid[i][j] == 1) {
+                    temp[j] = 1;
+                    continue;
+                }
+                int cnt = 0;
+                if (i > 0 && obstacleGrid[i - 1][j] == 0) cnt += dp[j];
+                if (j > 0 && obstacleGrid[i][j - 1] == 0) cnt += temp[j - 1];
+                temp[j] = cnt;
+            }
+            dp = temp;
+        }
+
+        return dp[n - 1];
+    }
+};
