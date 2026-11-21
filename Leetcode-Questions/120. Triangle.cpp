@@ -50,3 +50,29 @@ public:
         return dp[0][0];
     }
 };
+
+// APPROACH 3: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(N^2)
+// SC: O(N)
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<int> dp(n, 0);
+        for (int i = n - 1; i >= 0; i--) {
+            vector<int> temp(n, 0);
+            for (int j = 0; j < triangle[i].size(); j++) {
+                if (i == n - 1) {
+                    temp[j] = triangle[i][j];
+                    continue;
+                }
+
+                int mini = min(dp[j], dp[j + 1]);
+                temp[j] = triangle[i][j] + mini;
+            }
+            dp = temp;
+        }
+
+        return dp[0];
+    }
+};
