@@ -60,17 +60,15 @@ public:
         int n = triangle.size();
         vector<int> dp(n, 0);
         for (int i = n - 1; i >= 0; i--) {
-            vector<int> temp(n, 0);
             for (int j = 0; j < triangle[i].size(); j++) {
                 if (i == n - 1) {
-                    temp[j] = triangle[i][j];
+                    dp[j] = triangle[i][j];
                     continue;
                 }
 
                 int mini = min(dp[j], dp[j + 1]);
-                temp[j] = triangle[i][j] + mini;
+                dp[j] = triangle[i][j] + mini;
             }
-            dp = temp;
         }
 
         return dp[0];
