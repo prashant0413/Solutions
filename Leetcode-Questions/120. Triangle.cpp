@@ -1,6 +1,6 @@
 // APPROACH 1: RECURSION WITH MEMOIZATION
 // TC: O(N)
-// SC: O(N) + O(M.N)
+// SC: O(N) + O(N^2)
 class Solution {
 private:
     int solve(int i, int j, vector<vector<int>> &triangle, int n,  vector<vector<int>> &dp) {
@@ -23,5 +23,30 @@ public:
         int m = triangle[n - 1].size();
         vector<vector<int>> dp(n, vector<int>(m, -1e9));
         return solve(0, 0, triangle, n, dp);
+    }
+};
+
+// APPROACH 2: DP TABULATION
+// TC: O(N^2)
+// SC: O(N^2)
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        int m = triangle[n - 1].size();
+        vector<vector<int>> dp(n, vector<int>(m, 0));
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = 0; j < triangle[i].size(); j++) {
+                if (i == n - 1) {
+                    dp[i][j] = triangle[i][j];
+                    continue;
+                }
+
+                int mini = min(dp[i + 1][j], dp[i + 1][j + 1]);
+                dp[i][j] = triangle[i][j] + mini;
+            }
+        }
+
+        return dp[0][0];
     }
 };
