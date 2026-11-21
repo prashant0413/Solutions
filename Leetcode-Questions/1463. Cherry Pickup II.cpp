@@ -71,3 +71,45 @@ public:
         return dp[0][0][n - 1];
     }
 };
+
+// APPROACH 3: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(M.N.N)
+// SC: O(N.N)
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+
+        for (int i = m - 1; i >= 0; i--) {
+            vector<vector<int>> temp(n, vector<int>(n, 0));
+            for (int j1 = 0; j1 < n; j1++) {
+                for (int j2 = 0; j2 < n; j2++) {
+                    if (j2 == j1) continue;
+
+                    if (i == m - 1) {
+                        temp[j1][j2] = grid[i][j1] + grid[i][j2];
+                        continue;
+                    }
+
+                    int maxi = -1e9;
+                    for (int dj1 = -1; dj1 <= 1; dj1++) {
+                        int new_j1 = j1 + dj1;
+                        if (new_j1 < 0 || new_j1 >= n) continue;
+                        for (int dj2 = -1; dj2 <= 1; dj2++) {
+                            int new_j2 = j2 + dj2;
+                            if (new_j2 < 0 || new_j2 >= n || new_j1 == new_j2) continue; 
+                            maxi = max(maxi, dp[new_j1][new_j2]);
+                        }
+                    }
+
+                    temp[j1][j2] = grid[i][j1] + grid[i][j2] + maxi;
+                }
+            }
+            dp = temp;
+        }
+
+        return dp[0][n - 1];
+    }
+};
