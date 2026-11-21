@@ -9,6 +9,7 @@ class Solution {
 
         if (dp[i][j1][j2] != -1e9) return dp[i][j1][j2];
 
+        // EXPLORE ALL PATH TOGETHER
         int maxi = -1e9;
         for (int k = -1; k <= 1; k++) {
             int new_j1 = j1 + k;
