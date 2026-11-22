@@ -26,7 +26,7 @@ public:
     }
 };
 
-// APPROACH 1: DP TABULATION
+// APPROACH 2: DP TABULATION
 // TC: O(2.3.N)
 // SC: O(2.3.N)
 class Solution {
