@@ -100,3 +100,26 @@ public:
         return solve(0, 0, prices, n, dp);
     }
 };
+
+// APPROACH 5 DP TABULATION USING DP[N][4]
+// TC: O(4.N)
+// SC: O(4.N)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n + 1, vector<int>(5, 0));
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (int transaction = 0; transaction < 4; transaction++) {
+                if (transaction & 1) { // sell
+                    dp[i][transaction] = max(prices[i] + dp[i + 1][transaction + 1], dp[i + 1][transaction]);
+                } else { // buy
+                    dp[i][transaction] = max(dp[i + 1][transaction + 1] - prices[i], dp[i + 1][transaction]);
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+};
