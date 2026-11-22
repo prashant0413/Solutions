@@ -77,3 +77,26 @@ public:
         return dp[1][2];
     }
 };
+
+// APPROACH 4: RECURSION WITH MEMOIZATION USING DP[N][4]
+// TC: O(4.N)
+// SC: O(N) + O(4.N)
+class Solution {
+    int solve(int i, int transaction, vector<int> &prices, int n, vector<vector<int>> &dp) {
+        if (i == n || transaction == 4) return 0;
+
+        if (dp[i][transaction] != -1e9) return dp[i][transaction];
+
+        if (transaction & 1) // SELL
+            return dp[i][transaction] = max(prices[i] + solve(i + 1, transaction + 1, prices, n, dp), solve(i + 1, transaction, prices, n, dp));
+        
+        // BUY
+        return dp[i][transaction] = max(-prices[i] + solve(i + 1, transaction + 1, prices, n, dp), solve(i + 1, transaction, prices, n, dp));
+    }
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(4, -1e9));
+        return solve(0, 0, prices, n, dp);
+    }
+};
