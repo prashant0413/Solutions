@@ -123,3 +123,27 @@ public:
         return dp[0][0];
     }
 };
+
+// APPROACH 6: DP TABULATION USING DP[4] WITH SPACE OPTIMIZATION
+// TC: O(K.N)
+// SC: O(K)
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<int> dp(2 * k + 1, 0), temp(2 * k + 1, 0);
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (int transaction = 0; transaction < 2 * k; transaction++) {
+                if (transaction & 1) { // sell
+                   temp[transaction] = max(prices[i] + dp[transaction + 1], dp[transaction]);
+                } else { // buy
+                   temp[transaction] = max(dp[transaction + 1] - prices[i], dp[transaction]);
+                }
+            }
+            dp = temp;
+        }
+
+        return dp[0];
+    }
+};
