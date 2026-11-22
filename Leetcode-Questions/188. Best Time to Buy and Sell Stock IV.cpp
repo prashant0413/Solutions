@@ -78,9 +78,9 @@ public:
     }
 };
 
-// APPROACH 4: RECURSION WITH MEMOIZATION USING DP[N][4]
-// TC: O(4.N)
-// SC: O(N) + O(4.N)
+// APPROACH 4: RECURSION WITH MEMOIZATION USING DP[N][K]
+// TC: O(K.N)
+// SC: O(N) + O(K.N)
 class Solution {
     int solve(int i, int transaction, vector<int> &prices, int n, int k, vector<vector<int>> &dp) {
         if (i == n || transaction == 2 * k) return 0;
