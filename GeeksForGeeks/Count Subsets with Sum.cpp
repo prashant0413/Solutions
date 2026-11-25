@@ -20,3 +20,28 @@ class Solution {
         return solve(0, arr, target, n, dp);
     }
 };
+
+// APPROACH 2: DP TABULATION
+// TC: O(N.TARGET)
+// SC: O(N.TARGET)
+class Solution {
+  public:
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(target + 1, 0));
+        
+        dp[0][0] = arr[0] == 0 ? 2 : 1;
+        if (arr[0] != 0 && arr[0] <= target) dp[0][arr[0]] = 1;
+        
+        for (int i = 1; i < n; i++) {
+            for (int k = 0; k <= target; k++) {
+                int cnt = 0;
+                cnt += (arr[i] <= k) ? dp[i - 1][k - arr[i]] : 0;
+                cnt += dp[i - 1][k];
+                dp[i][k] = cnt;
+            }
+        }
+        
+        return dp[n - 1][target];
+    }
+};
