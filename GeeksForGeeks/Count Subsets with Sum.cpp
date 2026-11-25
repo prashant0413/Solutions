@@ -45,3 +45,30 @@ class Solution {
         return dp[n - 1][target];
     }
 };
+
+// APPROACH 3: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(N.TARGET)
+// SC: O(TARGET)
+class Solution {
+  public:
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<int> dp(target + 1, 0);
+        
+        dp[0] = arr[0] == 0 ? 2 : 1;
+        if (arr[0] != 0 && arr[0] <= target) dp[arr[0]] = 1;
+        
+        for (int i = 1; i < n; i++) {
+            vector<int> temp(target + 1, 0);
+            for (int k = 0; k <= target; k++) {
+                int cnt = 0;
+                cnt += (arr[i] <= k) ? dp[k - arr[i]] : 0;
+                cnt += dp[k];
+                temp[k] = cnt;
+            }
+            dp = temp;
+        }
+        
+        return dp[target];
+    }
+};
