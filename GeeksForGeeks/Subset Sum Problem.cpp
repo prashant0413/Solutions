@@ -40,3 +40,27 @@ public:
         return solve(n - 1, arr, sum, dp);
     }
 };
+
+// APPROACH 3: DP TABULATION
+// TC: O(SUM.N)
+// SC: O(SUM.N)
+class Solution {
+public:
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n = arr.size();
+        vector<vector<bool>> dp(n, vector<bool>(sum + 1, false));
+        
+        for (int i = 0; i < n; i++) dp[i][0] = true;
+        dp[0][arr[0]] = true;
+        
+        for (int i = 1; i < n; i++) {
+            for (int target = 1; target <= sum; target++) {
+                bool notTake = dp[i - 1][target];
+                bool take = arr[i] <= target ? dp[i - 1][target - arr[i]] : false;
+                dp[i][target] = take || notTake;
+            }
+        }
+        
+        return dp[n - 1][sum];
+    }
+};
