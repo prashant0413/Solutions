@@ -64,3 +64,30 @@ public:
         return dp[n - 1][sum];
     }
 };
+
+// APPROACH 4: DP TABULATION WITH SPACE OPTIMIZATION
+// TC: O(SUM.N)
+// SC: O(SUM)
+class Solution {
+public:
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n = arr.size();
+        vector<bool> dp(sum + 1, false);
+        dp[0] = true;
+        dp[arr[0]] = true;
+        
+        for (int i = 1; i < n; i++) {
+            vector<bool> temp(sum + 1, false);
+            temp[0] = true;
+            temp[arr[0]] = true;
+            for (int target = 1; target <= sum; target++) {
+                bool notTake = dp[target];
+                bool take = arr[i] <= target ? dp[target - arr[i]] : false;
+                temp[target] = take || notTake;
+            }
+            dp = temp;
+        }
+        
+        return dp[sum];
+    }
+};
