@@ -28,3 +28,37 @@ class Solution {
         return solve(n - 1, arr, diff, sum, 0, dp);
     }
 };
+
+// APPROACH 2: DP TABULATION
+// TC: O(N.SUM)
+// SC: O(SUM)
+class Solution {
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<int> dp(target + 1, 0);
+    
+        dp[0] = arr[0] == 0 ? 2 : 1;
+        if (arr[0] != 0 && arr[0] <= target) dp[arr[0]] = 1;
+    
+        for (int i = 1; i < n; i++) {
+            vector<int> temp(target + 1, 0);
+            for (int k = 0; k <= target; k++) {
+                int cnt = 0;
+                cnt += (arr[i] <= k) ? dp[k - arr[i]] : 0;
+                cnt += dp[k];
+                temp[k] = cnt;
+            }
+            dp = temp;
+        }
+    
+        return dp[target];
+    }
+  public:
+    int countPartitions(vector<int>& arr, int diff) {
+        int n = arr.size();
+        int sum = accumulate(begin(arr), end(arr), 0);
+        if ((sum - diff) % 2 != 0 || sum - diff < 0) return 0;
+        int target = (sum - diff) / 2;
+        return perfectSum(arr, target);
+    }
+};
