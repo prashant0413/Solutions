@@ -1,4 +1,4 @@
-// APPROACH 1: DE BRUIJIN SEQUENCE
+// APPROACH 1: DE BRUIJN SEQUENCE
 // TC: O(K^N)
 // SC: O(N)
 class Solution {
